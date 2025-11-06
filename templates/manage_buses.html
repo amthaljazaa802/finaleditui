@@ -1,0 +1,52 @@
+{% extends 'admin_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Manage Buses</h2>
+        <button id="add-bus-toggle-btn"
+            class="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary/90">
+            <span class="material-symbols-outlined">add</span>
+            Add New Bus
+        </button>
+    </div>
+
+    <!-- Main table container -->
+    <div class="mt-8 overflow-hidden rounded-xl border border-gray-200/80 bg-white dark:border-gray-700/50 dark:bg-background-dark/50">
+        <div class="overflow-x-auto">
+            <!-- CHANGE 1: Added 'table-fixed' to lock column widths -->
+            <table class="w-full text-left text-sm table-fixed">
+                <!-- CHANGE 2: Replaced the old thead with this one containing explicit column widths -->
+                <thead class="border-b border-gray-200 bg-gray-50 text-xs uppercase text-gray-700 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 w-1/12">ID</th>
+                        <th scope="col" class="px-6 py-3 w-4/12">License Plate</th>
+                        <th scope="col" class="px-6 py-3 w-3/12">QR Code</th>
+                        <th scope="col" class="px-6 py-3 w-2/12">Assigned Route</th>
+                        <th scope="col" class="px-6 py-3 w-2/12">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200/50 dark:divide-gray-700/50" id="buses-table-body">
+                    <!-- The JavaScript will render all table rows here, including the 'Add Bus' form -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- The delete modal remains unchanged -->
+<div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-xl font-bold mb-4">Are you sure you want to delete this bus?</h3>
+        <div class="flex justify-center gap-4">
+            <button id="confirm-delete-btn"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Yes, Delete</button>
+            <button id="cancel-delete-btn"
+                class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/buses.js' %}"></script>
+{% endblock content %}

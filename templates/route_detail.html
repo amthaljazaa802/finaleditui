@@ -1,0 +1,48 @@
+{% extends 'admin_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div id="route-info-container" class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Loading Route...</h2>
+    </div>
+
+    <h3 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">Stops on this Route</h3>
+    <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+        <table class="w-full text-left text-sm">
+            <thead class="border-b border-gray-200 bg-gray-50 text-xs uppercase text-gray-700 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Order</th>
+                    <th scope="col" class="px-6 py-3">Stop Name</th>
+                    <th scope="col" class="px-6 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="stops-on-route-table-body">
+                <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <td colspan="3" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                        This route has no stops assigned yet.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-8">
+        <h3 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">Add Stop to Route</h3>
+        <form id="add-stop-to-route-form" class="flex items-end gap-4 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            {% csrf_token %}
+            <div class="flex-grow">
+                <label for="order-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order</label>
+                <input type="number" id="order-input" class="mt-1 block w-full rounded-md border-gray-300 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" placeholder="e.g., 4">
+            </div>
+            <div class="flex-grow-[3]"> <label for="stop-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Select Stop</label>
+                 <select id="stop-select" class="mt-1 block w-full rounded-md border-gray-300 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"></select>
+            </div>
+            <button type="submit" id="add-stop-button" class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600">Add Stop</button>
+        </form>
+    </div>
+</div>
+
+<script id="route-id" type="application/json">{{ route_id }}</script>
+<script src="{% static 'js/route_detail.js' %}"></script>
+{% endblock content %}
