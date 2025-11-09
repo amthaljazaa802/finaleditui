@@ -1,0 +1,44 @@
+{% extends 'admin_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    
+    {% csrf_token %}
+
+    <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-2xl sm:text-3xl font-bold text-background-dark dark:text-background-light">Manage Stops</h2>
+        <button id="add-stop-toggle-btn" class="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/80">
+            <span class="material-symbols-outlined">add</span>
+            <span class="truncate">Add New Stop</span>
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto rounded-xl border border-background-dark/10 dark:border-background-light/10 bg-background-light dark:bg-background-dark">
+        <table class="w-full text-left">
+            <thead class="bg-background-dark/5 dark:bg-background-light/5">
+                <tr>
+                    <th class="px-6 py-4 text-sm font-semibold text-background-dark dark:text-background-light">Stop Name</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-background-dark dark:text-background-light">Latitude</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-background-dark dark:text-background-light">Longitude</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-background-dark dark:text-background-light">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-background-dark/10 dark:divide-background-light/10" id="stops-table-body">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="delete-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+        <h3 class="text-xl font-bold mb-4">Are you sure you want to delete this stop?</h3>
+        <div class="flex justify-center gap-4">
+            <button id="confirm-delete-btn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Yes, Delete</button>
+            <button id="cancel-delete-btn" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/stops.js' %}"></script>
+{% endblock content %}

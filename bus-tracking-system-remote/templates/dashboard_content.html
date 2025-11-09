@@ -1,0 +1,38 @@
+{% extends 'admin_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="mx-auto max-w-7xl">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h2>
+        <p class="text-gray-500 dark:text-gray-400">Overview of bus operations and key metrics</p>
+    </div>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" id="metrics-content">
+        </div>
+
+    <div class="mt-8">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Active Alerts</h3>
+        <div id="active-alerts-container" class="mt-4 space-y-4">
+            </div>
+    </div>
+
+    <div class="mt-8">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Real-Time Bus Status</h3>
+        <div class="mt-4 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                <thead class="bg-gray-50 dark:bg-gray-800/50">
+                    <tr>
+                        <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400" scope="col">Bus ID</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400" scope="col">Route</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400" scope="col">Status</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400" scope="col">Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-800 dark:bg-gray-900/50" id="bus-status-table-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock content %}

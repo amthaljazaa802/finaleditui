@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | BusTrack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* إعداد الـ Form ليتناسب مع Tailwind */
+        .form-control {
+            @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-100;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md">
+        <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 space-y-6">
+            
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center">
+                مرحباً بك في BusTrack
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-center">
+                الرجاء تسجيل الدخول للوصول إلى لوحة الإدارة.
+            </p>
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="p-3 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-md">
+                        {% for error in form.non_field_errors %}
+                            <p class="text-sm">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div>
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        اسم المستخدم
+                    </label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <p class="text-xs text-red-500 mt-1">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        كلمة المرور
+                    </label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <p class="text-xs text-red-500 mt-1">{{ form.password.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                        تسجيل الدخول
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center">
+                <a href="{% url 'password_reset' %}" class="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+                    نسيت كلمة المرور؟
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

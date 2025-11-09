@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test - Bus Tracking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        .message {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 3px solid #007bff;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Test - Bus Tracking System</h1>
+    
+    <div id="status" class="status disconnected">
+        ❌ Not Connected
+    </div>
+
+    <button id="connectBtn">Connect WebSocket</button>
+    <button id="disconnectBtn" disabled>Disconnect WebSocket</button>
+
+    <h2>Messages:</h2>
+    <div id="messages"></div>
+
+    <script>
+        let ws = null;
+        const statusDiv = document.getElementById('status');
+        const messagesDiv = document.getElementById('messages');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+
+        function addMessage(message, type = 'info') {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            messagesDiv.insertBefore(msgDiv, messagesDiv.firstChild);
+        }
+
+        function updateStatus(connected) {
+            if (connected) {
+                statusDiv.className = 'status connected';
+                statusDiv.textContent = '✅ WebSocket Connected!';
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+            } else {
+                statusDiv.className = 'status disconnected';
+                statusDiv.textContent = '❌ Not Connected';
+                connectBtn.disabled = false;
+                disconnectBtn.disabled = true;
+            }
+        }
+
+        connectBtn.addEventListener('click', () => {
+            const wsUrl = `ws://${window.location.host}/ws/bus-locations/`;
+            addMessage(`Connecting to ${wsUrl}...`);
+            
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = () => {
+                console.log('✅ WebSocket Connected!');
+                addMessage('✅ WebSocket Connected!');
+                updateStatus(true);
+            };
+
+            ws.onmessage = (event) => {
+                console.log('📡 Received Update:', event.data);
+                const data = JSON.parse(event.data);
+                addMessage(`📡 Received: ${JSON.stringify(data, null, 2)}`);
+            };
+
+            ws.onerror = (error) => {
+                console.error('❌ WebSocket Error:', error);
+                addMessage('❌ WebSocket Error occurred!');
+            };
+
+            ws.onclose = () => {
+                console.log('🔌 WebSocket Closed');
+                addMessage('🔌 WebSocket Closed');
+                updateStatus(false);
+            };
+        });
+
+        disconnectBtn.addEventListener('click', () => {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        });
+    </script>
+</body>
+</html>
